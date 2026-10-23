@@ -136,7 +136,12 @@ def _probe_media(ffprobe: str, output: Path) -> dict[str, Any]:
     )
     if process.returncode != 0:
         raise RuntimeError(process.stderr.strip() or "FFprobe failed.")
-    return json.loads(process.stdout)
+    media = json.loads(process.stdout)
+    media["audio_present"] = any(
+        stream.get("codec_type") == "audio"
+        for stream in media.get("streams", [])
+    )
+    return media
 
 
 def _validate_rendered_frames(frame_dir: Path, expected_count: int) -> dict[str, Any]:
@@ -238,7 +243,7 @@ def run_pipeline(
         stages.extend([
             _stage("rendering", "passed", "Deterministic frames rendered through the local compositor.", **frame_qa),
             _stage("rendered_frame_qa", "passed", "All generated BMP frames are non-empty and dimensionally consistent.", **frame_qa),
-            _stage("mp4_export", "passed", str(output), media=media),
+            _stage("mp4_export", "passed", output.name, media=media),
         ])
     else:
         stages.append(_stage("mp4_export", "blocked", "FFmpeg unavailable; preview and blueprint remain available."))
@@ -247,10 +252,10 @@ def run_pipeline(
         "provider": blueprint["provider"],
         "stages": stages,
         "outputs": {
-            "blueprint": str(project / "blueprint.json"),
-            "storyboard": str(project / "storyboard.svg"),
-            "quality_report": str(project / "quality-report.json"),
-            "mp4": str(output) if output.exists() else None,
+            "blueprint": "blueprint.json",
+            "storyboard": "storyboard.svg",
+            "quality_report": "quality-report.json",
+            "mp4": output.name if output.exists() else None,
         },
         "limitations": ["No external research or paid AI provider was used.", "Audio is not implemented."],
     }

@@ -74,7 +74,7 @@
     {
       "stage": "mp4_export",
       "status": "passed",
-      "detail": "C:\\Coding\\Claude-skills\\examples\\autonomous-idea-demo\\motionforge.mp4",
+      "detail": "motionforge.mp4",
       "media": {
         "programs": [],
         "stream_groups": [],
@@ -90,16 +90,17 @@
         ],
         "format": {
           "duration": "15.000000",
-          "size": "170454"
-        }
+          "size": "153606"
+        },
+        "audio_present": false
       }
     }
   ],
   "outputs": {
-    "blueprint": "C:\\Coding\\Claude-skills\\examples\\autonomous-idea-demo\\blueprint.json",
-    "storyboard": "C:\\Coding\\Claude-skills\\examples\\autonomous-idea-demo\\storyboard.svg",
-    "quality_report": "C:\\Coding\\Claude-skills\\examples\\autonomous-idea-demo\\quality-report.json",
-    "mp4": "C:\\Coding\\Claude-skills\\examples\\autonomous-idea-demo\\motionforge.mp4"
+    "blueprint": "blueprint.json",
+    "storyboard": "storyboard.svg",
+    "quality_report": "quality-report.json",
+    "mp4": "motionforge.mp4"
   },
   "limitations": [
     "No external research or paid AI provider was used.",

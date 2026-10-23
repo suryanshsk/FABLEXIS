@@ -188,7 +188,12 @@ def main() -> int:
             )
             if probe.returncode != 0:
                 raise SystemExit(f"MP4 verification failed: {probe.stderr.strip() or 'ffprobe returned an error.'}")
-            (args.project / "media-report.json").write_text(probe.stdout, encoding="utf-8")
+            media = json.loads(probe.stdout)
+            media["audio_present"] = any(
+                stream.get("codec_type") == "audio"
+                for stream in media.get("streams", [])
+            )
+            (args.project / "media-report.json").write_text(json.dumps(media, indent=2), encoding="utf-8")
         print(f"Exported {output}")
         return 0
     blueprint = json.loads(args.blueprint.read_text(encoding="utf-8"))

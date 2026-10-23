@@ -9,7 +9,10 @@ Purpose: turn a natural-language idea or script into a storyboard, validated blu
 
 Required inputs: an idea or script.
 Optional inputs: duration, aspect ratio, local assets, factual sources, and brand constraints.
-Expected outputs: `blueprint.json`, storyboard files, quality/production reports, and `motionforge.mp4` when FFmpeg is available.
+Expected outputs: `blueprint.json`, storyboard files, quality/production reports, and `motionforge.mp4` when FFmpeg is available. The MP4 filename is retained as a legacy compatibility output.
+Validation: validate the blueprint, local asset paths, rendered frames, and final media before claiming success.
+Failure handling: preserve previews and reports, identify the blocked stage, and never simulate an MP4.
+Handoff: send the directed storyboard to blueprint generation, rendering, and quality assurance.
 
 Use the shared project manifest rather than retyping creative decisions in prose. Infer safe defaults and keep the creator moving.
 

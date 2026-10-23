@@ -83,6 +83,18 @@ fablexis export <project>
 
 Do not report a stage as complete unless the command or tool succeeded. If FFmpeg or a provider is unavailable, report the exact fallback and limitation.
 
+For agent installation, the host must be able to read this root `SKILL.md`, the
+specialist files under `skills/`, and the local `engine/` package. The agent
+invokes `fablexis create` (or `python -m engine.cli create`) with an idea or
+script and a project directory. Outputs are written under that project:
+`blueprint.json`, storyboard files, quality/production reports, and the
+compatibility output `motionforge.mp4` when FFmpeg succeeds. Validate with
+`fablexis validate <project>\blueprint.json`, inspect `production-report.json`,
+and use FFprobe before claiming a real video exists. The offline provider needs
+no credentials or network access; missing FFmpeg blocks only MP4 export.
+Keep local assets within the project root and keep credentials in environment
+variables, never in briefs, blueprints, reports, or skill files.
+
 ## References
 
 Read only the references needed for the request:
