@@ -1,0 +1,108 @@
+{
+  "status": "passed",
+  "provider": {
+    "name": "deterministic-offline",
+    "mode": "offline",
+    "status": "fallback"
+  },
+  "stages": [
+    {
+      "stage": "brief_intake",
+      "status": "passed",
+      "detail": "Natural-language brief accepted."
+    },
+    {
+      "stage": "script_segmentation",
+      "status": "passed",
+      "detail": "Sentence and paragraph boundaries converted into scenes."
+    },
+    {
+      "stage": "research_planning",
+      "status": "passed",
+      "detail": "Claims retained as user-supplied; no external research performed."
+    },
+    {
+      "stage": "creative_direction",
+      "status": "passed",
+      "detail": "Deterministic semantic treatment selection completed."
+    },
+    {
+      "stage": "narrative_structure",
+      "status": "passed",
+      "detail": "Arc and scene durations generated."
+    },
+    {
+      "stage": "storyboard_generation",
+      "status": "passed",
+      "detail": "Markdown and SVG storyboard outputs are ready."
+    },
+    {
+      "stage": "asset_planning",
+      "status": "passed",
+      "detail": "6 explicit local asset references tracked."
+    },
+    {
+      "stage": "blueprint_validation",
+      "status": "passed",
+      "detail": "Timing, required scene fields, and asset paths validated."
+    },
+    {
+      "stage": "rendered_preview",
+      "status": "passed",
+      "detail": "Storyboard SVG and HTML written."
+    },
+    {
+      "stage": "rendering",
+      "status": "passed",
+      "detail": "Deterministic frames rendered through the local compositor.",
+      "frame_count": 180,
+      "dimensions": [
+        540,
+        960
+      ]
+    },
+    {
+      "stage": "rendered_frame_qa",
+      "status": "passed",
+      "detail": "All generated BMP frames are non-empty and dimensionally consistent.",
+      "frame_count": 180,
+      "dimensions": [
+        540,
+        960
+      ]
+    },
+    {
+      "stage": "mp4_export",
+      "status": "passed",
+      "detail": "C:\\Coding\\Claude-skills\\examples\\autonomous-idea-demo\\motionforge.mp4",
+      "media": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 540,
+            "height": 960,
+            "pix_fmt": "yuv420p",
+            "r_frame_rate": "12/1"
+          }
+        ],
+        "format": {
+          "duration": "15.000000",
+          "size": "170454"
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "blueprint": "C:\\Coding\\Claude-skills\\examples\\autonomous-idea-demo\\blueprint.json",
+    "storyboard": "C:\\Coding\\Claude-skills\\examples\\autonomous-idea-demo\\storyboard.svg",
+    "quality_report": "C:\\Coding\\Claude-skills\\examples\\autonomous-idea-demo\\quality-report.json",
+    "mp4": "C:\\Coding\\Claude-skills\\examples\\autonomous-idea-demo\\motionforge.mp4"
+  },
+  "limitations": [
+    "No external research or paid AI provider was used.",
+    "Audio is not implemented."
+  ]
+}

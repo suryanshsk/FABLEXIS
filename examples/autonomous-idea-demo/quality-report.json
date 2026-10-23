@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "checks": [
+    "blueprint",
+    "assets",
+    "storyboard",
+    "rendered_frames",
+    "media"
+  ],
+  "validated_scene_count": 5
+}

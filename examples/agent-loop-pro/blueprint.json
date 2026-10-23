@@ -1,0 +1,559 @@
+{
+  "schema_version": "1.0",
+  "project": {
+    "name": "MotionForge project",
+    "mode": "production",
+    "aspect_ratio": "9:16"
+  },
+  "analysis": {
+    "thesis": "Ideas become systems.",
+    "audience": "Inferred from the supplied material; confirm if material to the edit.",
+    "hook": "Ideas become systems.",
+    "assumptions": [
+      "Timing is estimated at approximately 150 words per minute.",
+      "No external research was performed."
+    ]
+  },
+  "global_style": {
+    "palette": [
+      "#0B1020",
+      "#F4EBDD",
+      "#F15A4A",
+      "#28B8A6",
+      "#F4C95D"
+    ],
+    "typography": "bold condensed display face for hooks, neutral sans-serif for supporting labels",
+    "texture": "subtle paper grain with restrained halftone accents",
+    "recurring_motif": "a thin coral route line that becomes a reveal mask",
+    "motion_rules": [
+      "meaningful reveals",
+      "short readable holds",
+      "shape-matched transitions"
+    ]
+  },
+  "narrative": {
+    "estimated_duration": 21.0,
+    "scene_count": 7,
+    "arc": [
+      "hook",
+      "development",
+      "conclusion"
+    ]
+  },
+  "scenes": [
+    {
+      "id": "scene-01",
+      "number": 1,
+      "purpose": "hook",
+      "narration": "Ideas become systems.",
+      "start": 0.0,
+      "end": 3.0,
+      "duration": 3.0,
+      "timing_type": "estimated",
+      "aspect_ratio": "9:16",
+      "visual_treatment": "kinetic typography",
+      "treatment_reason": "the opening hook needs immediate emphasis and a readable reveal",
+      "direction": {
+        "tone": "urgent",
+        "information_density": "focused",
+        "asset_strategy": "deterministic graphics first; optional local assets validated before use"
+      },
+      "visual_concept": "Make the idea 'Ideas become systems.' tangible using kinetic typography",
+      "composition": "one dominant focal subject in the lower third, with supporting labels in a quiet margin",
+      "animation": "reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match",
+      "camera": "a restrained push-in with a lateral parallax shift",
+      "transition": "match the final shape or direction into the next scene",
+      "on_screen_text": "Use only a short keyword or exact supplied number; typeset precise copy in post.",
+      "sound": "a soft paper movement on the reveal and a restrained tonal accent on the hold",
+      "assets": [
+        "background texture",
+        "focal illustration",
+        "short text overlay"
+      ],
+      "continuity": "Keep the global palette, coral route-line motif, and camera direction.",
+      "variation": {
+        "layout_variant": "center-stack",
+        "motion_variant": "rise"
+      },
+      "layout": {
+        "safe_margin": 50,
+        "focal_area": "center-lower",
+        "depth_layers": [
+          "background",
+          "shadow",
+          "focal",
+          "labels"
+        ]
+      },
+      "typography": {
+        "display": "pixel editorial",
+        "hierarchy": [
+          "scene label",
+          "focal word",
+          "support label"
+        ],
+        "alignment": "safe-area aligned"
+      },
+      "transition_spec": {
+        "type": "shape-match",
+        "duration": 0.4,
+        "direction": "forward"
+      },
+      "render": {
+        "fps": 12,
+        "width": 540,
+        "height": 960
+      },
+      "prompt": "Create a 9:16 editorial explainer scene in kinetic typography style. Global palette: #0B1020, #F4EBDD, #F15A4A, #28B8A6, #F4C95D. Show Make the idea 'Ideas become systems.' tangible using kinetic typography with one dominant focal subject in the lower third, with supporting labels in a quiet margin. Animate in this order: reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match. Use a restrained push-in with a lateral parallax shift camera movement. Start with the described quiet setup and end on the focal reveal that leads into the next scene. Maintain the shared a thin coral route line that becomes a reveal mask motif and subtle paper grain with restrained halftone accents texture. Use clean shapes and controlled contrast. No logos, watermarks, unrelated objects, malformed typography, invented numbers, visual clutter, or style drift. If exact text or data is required, leave a clean overlay area for post-production."
+    },
+    {
+      "id": "scene-02",
+      "number": 2,
+      "purpose": "develop the argument",
+      "narration": "Data reveals the pattern.",
+      "start": 3.0,
+      "end": 6.0,
+      "duration": 3.0,
+      "timing_type": "estimated",
+      "aspect_ratio": "9:16",
+      "visual_treatment": "geometric infographic",
+      "treatment_reason": "numbers, systems, or comparisons",
+      "direction": {
+        "tone": "curious",
+        "information_density": "focused",
+        "asset_strategy": "deterministic graphics first; optional local assets validated before use"
+      },
+      "visual_concept": "Make the idea 'Data reveals the pattern.' tangible using geometric infographic",
+      "composition": "one dominant focal subject in the lower third, with supporting labels in a quiet margin",
+      "animation": "reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match",
+      "camera": "a restrained push-in with a lateral parallax shift",
+      "transition": "match the final shape or direction into the next scene",
+      "on_screen_text": "Use only a short keyword or exact supplied number; typeset precise copy in post.",
+      "sound": "a soft paper movement on the reveal and a restrained tonal accent on the hold",
+      "assets": [
+        "background texture",
+        "focal illustration",
+        "short text overlay"
+      ],
+      "continuity": "Keep the global palette, coral route-line motif, and camera direction.",
+      "variation": {
+        "layout_variant": "right-anchor",
+        "motion_variant": "drift"
+      },
+      "layout": {
+        "safe_margin": 50,
+        "focal_area": "center-lower",
+        "depth_layers": [
+          "background",
+          "shadow",
+          "focal",
+          "labels"
+        ]
+      },
+      "typography": {
+        "display": "pixel editorial",
+        "hierarchy": [
+          "scene label",
+          "focal word",
+          "support label"
+        ],
+        "alignment": "safe-area aligned"
+      },
+      "transition_spec": {
+        "type": "shape-match",
+        "duration": 0.4,
+        "direction": "forward"
+      },
+      "render": {
+        "fps": 12,
+        "width": 540,
+        "height": 960
+      },
+      "prompt": "Create a 9:16 editorial explainer scene in geometric infographic style. Global palette: #0B1020, #F4EBDD, #F15A4A, #28B8A6, #F4C95D. Show Make the idea 'Data reveals the pattern.' tangible using geometric infographic with one dominant focal subject in the lower third, with supporting labels in a quiet margin. Animate in this order: reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match. Use a restrained push-in with a lateral parallax shift camera movement. Start with the described quiet setup and end on the focal reveal that leads into the next scene. Maintain the shared a thin coral route line that becomes a reveal mask motif and subtle paper grain with restrained halftone accents texture. Use clean shapes and controlled contrast. No logos, watermarks, unrelated objects, malformed typography, invented numbers, visual clutter, or style drift. If exact text or data is required, leave a clean overlay area for post-production."
+    },
+    {
+      "id": "scene-03",
+      "number": 3,
+      "purpose": "develop the argument",
+      "narration": "Technology makes the loop visible.",
+      "start": 6.0,
+      "end": 9.0,
+      "duration": 3.0,
+      "timing_type": "estimated",
+      "aspect_ratio": "9:16",
+      "visual_treatment": "dimensional diagram",
+      "treatment_reason": "technical systems or mechanisms",
+      "direction": {
+        "tone": "curious",
+        "information_density": "focused",
+        "asset_strategy": "deterministic graphics first; optional local assets validated before use"
+      },
+      "visual_concept": "Make the idea 'Technology makes the loop visible.' tangible using dimensional diagram",
+      "composition": "one dominant focal subject in the lower third, with supporting labels in a quiet margin",
+      "animation": "reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match",
+      "camera": "a restrained push-in with a lateral parallax shift",
+      "transition": "match the final shape or direction into the next scene",
+      "on_screen_text": "Use only a short keyword or exact supplied number; typeset precise copy in post.",
+      "sound": "a soft paper movement on the reveal and a restrained tonal accent on the hold",
+      "assets": [
+        "background texture",
+        "focal illustration",
+        "short text overlay"
+      ],
+      "continuity": "Keep the global palette, coral route-line motif, and camera direction.",
+      "variation": {
+        "layout_variant": "left-anchor",
+        "motion_variant": "reveal"
+      },
+      "layout": {
+        "safe_margin": 50,
+        "focal_area": "center-lower",
+        "depth_layers": [
+          "background",
+          "shadow",
+          "focal",
+          "labels"
+        ]
+      },
+      "typography": {
+        "display": "pixel editorial",
+        "hierarchy": [
+          "scene label",
+          "focal word",
+          "support label"
+        ],
+        "alignment": "safe-area aligned"
+      },
+      "transition_spec": {
+        "type": "shape-match",
+        "duration": 0.4,
+        "direction": "forward"
+      },
+      "render": {
+        "fps": 12,
+        "width": 540,
+        "height": 960
+      },
+      "prompt": "Create a 9:16 editorial explainer scene in dimensional diagram style. Global palette: #0B1020, #F4EBDD, #F15A4A, #28B8A6, #F4C95D. Show Make the idea 'Technology makes the loop visible.' tangible using dimensional diagram with one dominant focal subject in the lower third, with supporting labels in a quiet margin. Animate in this order: reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match. Use a restrained push-in with a lateral parallax shift camera movement. Start with the described quiet setup and end on the focal reveal that leads into the next scene. Maintain the shared a thin coral route line that becomes a reveal mask motif and subtle paper grain with restrained halftone accents texture. Use clean shapes and controlled contrast. No logos, watermarks, unrelated objects, malformed typography, invented numbers, visual clutter, or style drift. If exact text or data is required, leave a clean overlay area for post-production."
+    },
+    {
+      "id": "scene-04",
+      "number": 4,
+      "purpose": "develop the argument",
+      "narration": "History gives the context.",
+      "start": 9.0,
+      "end": 12.0,
+      "duration": 3.0,
+      "timing_type": "estimated",
+      "aspect_ratio": "9:16",
+      "visual_treatment": "archive and halftone",
+      "treatment_reason": "historical context or evidence",
+      "direction": {
+        "tone": "curious",
+        "information_density": "focused",
+        "asset_strategy": "deterministic graphics first; optional local assets validated before use"
+      },
+      "visual_concept": "Make the idea 'History gives the context.' tangible using archive and halftone",
+      "composition": "one dominant focal subject in the lower third, with supporting labels in a quiet margin",
+      "animation": "reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match",
+      "camera": "a restrained push-in with a lateral parallax shift",
+      "transition": "match the final shape or direction into the next scene",
+      "on_screen_text": "Use only a short keyword or exact supplied number; typeset precise copy in post.",
+      "sound": "a soft paper movement on the reveal and a restrained tonal accent on the hold",
+      "assets": [
+        "background texture",
+        "focal illustration",
+        "short text overlay"
+      ],
+      "continuity": "Keep the global palette, coral route-line motif, and camera direction.",
+      "variation": {
+        "layout_variant": "center-stack",
+        "motion_variant": "rise"
+      },
+      "layout": {
+        "safe_margin": 50,
+        "focal_area": "center-lower",
+        "depth_layers": [
+          "background",
+          "shadow",
+          "focal",
+          "labels"
+        ]
+      },
+      "typography": {
+        "display": "pixel editorial",
+        "hierarchy": [
+          "scene label",
+          "focal word",
+          "support label"
+        ],
+        "alignment": "safe-area aligned"
+      },
+      "transition_spec": {
+        "type": "shape-match",
+        "duration": 0.4,
+        "direction": "forward"
+      },
+      "render": {
+        "fps": 12,
+        "width": 540,
+        "height": 960
+      },
+      "prompt": "Create a 9:16 editorial explainer scene in archive and halftone style. Global palette: #0B1020, #F4EBDD, #F15A4A, #28B8A6, #F4C95D. Show Make the idea 'History gives the context.' tangible using archive and halftone with one dominant focal subject in the lower third, with supporting labels in a quiet margin. Animate in this order: reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match. Use a restrained push-in with a lateral parallax shift camera movement. Start with the described quiet setup and end on the focal reveal that leads into the next scene. Maintain the shared a thin coral route line that becomes a reveal mask motif and subtle paper grain with restrained halftone accents texture. Use clean shapes and controlled contrast. No logos, watermarks, unrelated objects, malformed typography, invented numbers, visual clutter, or style drift. If exact text or data is required, leave a clean overlay area for post-production."
+    },
+    {
+      "id": "scene-05",
+      "number": 5,
+      "purpose": "develop the argument",
+      "narration": "A map shows the path.",
+      "start": 12.0,
+      "end": 15.0,
+      "duration": 3.0,
+      "timing_type": "estimated",
+      "aspect_ratio": "9:16",
+      "visual_treatment": "map and timeline",
+      "treatment_reason": "places, movement, or history",
+      "direction": {
+        "tone": "curious",
+        "information_density": "focused",
+        "asset_strategy": "deterministic graphics first; optional local assets validated before use"
+      },
+      "visual_concept": "Make the idea 'A map shows the path.' tangible using map and timeline",
+      "composition": "one dominant focal subject in the lower third, with supporting labels in a quiet margin",
+      "animation": "reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match",
+      "camera": "a restrained push-in with a lateral parallax shift",
+      "transition": "match the final shape or direction into the next scene",
+      "on_screen_text": "Use only a short keyword or exact supplied number; typeset precise copy in post.",
+      "sound": "a soft paper movement on the reveal and a restrained tonal accent on the hold",
+      "assets": [
+        "background texture",
+        "focal illustration",
+        "short text overlay"
+      ],
+      "continuity": "Keep the global palette, coral route-line motif, and camera direction.",
+      "variation": {
+        "layout_variant": "right-anchor",
+        "motion_variant": "drift"
+      },
+      "layout": {
+        "safe_margin": 50,
+        "focal_area": "center-lower",
+        "depth_layers": [
+          "background",
+          "shadow",
+          "focal",
+          "labels"
+        ]
+      },
+      "typography": {
+        "display": "pixel editorial",
+        "hierarchy": [
+          "scene label",
+          "focal word",
+          "support label"
+        ],
+        "alignment": "safe-area aligned"
+      },
+      "transition_spec": {
+        "type": "shape-match",
+        "duration": 0.4,
+        "direction": "forward"
+      },
+      "render": {
+        "fps": 12,
+        "width": 540,
+        "height": 960
+      },
+      "prompt": "Create a 9:16 editorial explainer scene in map and timeline style. Global palette: #0B1020, #F4EBDD, #F15A4A, #28B8A6, #F4C95D. Show Make the idea 'A map shows the path.' tangible using map and timeline with one dominant focal subject in the lower third, with supporting labels in a quiet margin. Animate in this order: reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match. Use a restrained push-in with a lateral parallax shift camera movement. Start with the described quiet setup and end on the focal reveal that leads into the next scene. Maintain the shared a thin coral route line that becomes a reveal mask motif and subtle paper grain with restrained halftone accents texture. Use clean shapes and controlled contrast. No logos, watermarks, unrelated objects, malformed typography, invented numbers, visual clutter, or style drift. If exact text or data is required, leave a clean overlay area for post-production."
+    },
+    {
+      "id": "scene-06",
+      "number": 6,
+      "purpose": "develop the argument",
+      "narration": "Why does judgment still matter?",
+      "start": 15.0,
+      "end": 18.0,
+      "duration": 3.0,
+      "timing_type": "estimated",
+      "aspect_ratio": "9:16",
+      "visual_treatment": "editorial collage",
+      "treatment_reason": "an emotional or human question benefits from layered visual context",
+      "direction": {
+        "tone": "curious",
+        "information_density": "focused",
+        "asset_strategy": "deterministic graphics first; optional local assets validated before use"
+      },
+      "visual_concept": "Make the idea 'Why does judgment still matter?' tangible using editorial collage",
+      "composition": "one dominant focal subject in the lower third, with supporting labels in a quiet margin",
+      "animation": "reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match",
+      "camera": "a restrained push-in with a lateral parallax shift",
+      "transition": "match the final shape or direction into the next scene",
+      "on_screen_text": "Use only a short keyword or exact supplied number; typeset precise copy in post.",
+      "sound": "a soft paper movement on the reveal and a restrained tonal accent on the hold",
+      "assets": [
+        "background texture",
+        "focal illustration",
+        "short text overlay"
+      ],
+      "continuity": "Keep the global palette, coral route-line motif, and camera direction.",
+      "variation": {
+        "layout_variant": "left-anchor",
+        "motion_variant": "reveal"
+      },
+      "layout": {
+        "safe_margin": 50,
+        "focal_area": "center-lower",
+        "depth_layers": [
+          "background",
+          "shadow",
+          "focal",
+          "labels"
+        ]
+      },
+      "typography": {
+        "display": "pixel editorial",
+        "hierarchy": [
+          "scene label",
+          "focal word",
+          "support label"
+        ],
+        "alignment": "safe-area aligned"
+      },
+      "transition_spec": {
+        "type": "shape-match",
+        "duration": 0.4,
+        "direction": "forward"
+      },
+      "render": {
+        "fps": 12,
+        "width": 540,
+        "height": 960
+      },
+      "prompt": "Create a 9:16 editorial explainer scene in editorial collage style. Global palette: #0B1020, #F4EBDD, #F15A4A, #28B8A6, #F4C95D. Show Make the idea 'Why does judgment still matter?' tangible using editorial collage with one dominant focal subject in the lower third, with supporting labels in a quiet margin. Animate in this order: reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match. Use a restrained push-in with a lateral parallax shift camera movement. Start with the described quiet setup and end on the focal reveal that leads into the next scene. Maintain the shared a thin coral route line that becomes a reveal mask motif and subtle paper grain with restrained halftone accents texture. Use clean shapes and controlled contrast. No logos, watermarks, unrelated objects, malformed typography, invented numbers, visual clutter, or style drift. If exact text or data is required, leave a clean overlay area for post-production."
+    },
+    {
+      "id": "scene-07",
+      "number": 7,
+      "purpose": "conclusion",
+      "narration": "The loop closes.",
+      "start": 18.0,
+      "end": 21.0,
+      "duration": 3.0,
+      "timing_type": "estimated",
+      "aspect_ratio": "9:16",
+      "visual_treatment": "editorial collage",
+      "treatment_reason": "the ending benefits from layered context and a resolved visual motif",
+      "direction": {
+        "tone": "reflective",
+        "information_density": "focused",
+        "asset_strategy": "deterministic graphics first; optional local assets validated before use"
+      },
+      "visual_concept": "Make the idea 'The loop closes.' tangible using editorial collage",
+      "composition": "one dominant focal subject in the lower third, with supporting labels in a quiet margin",
+      "animation": "reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match",
+      "camera": "a restrained push-in with a lateral parallax shift",
+      "transition": "match the final shape or direction into the next scene",
+      "on_screen_text": "Use only a short keyword or exact supplied number; typeset precise copy in post.",
+      "sound": "a soft paper movement on the reveal and a restrained tonal accent on the hold",
+      "assets": [
+        "background texture",
+        "focal illustration",
+        "short text overlay"
+      ],
+      "continuity": "Keep the global palette, coral route-line motif, and camera direction.",
+      "variation": {
+        "layout_variant": "center-stack",
+        "motion_variant": "rise"
+      },
+      "layout": {
+        "safe_margin": 50,
+        "focal_area": "center-lower",
+        "depth_layers": [
+          "background",
+          "shadow",
+          "focal",
+          "labels"
+        ]
+      },
+      "typography": {
+        "display": "pixel editorial",
+        "hierarchy": [
+          "scene label",
+          "focal word",
+          "support label"
+        ],
+        "alignment": "safe-area aligned"
+      },
+      "transition_spec": {
+        "type": "shape-match",
+        "duration": 0.4,
+        "direction": "forward"
+      },
+      "render": {
+        "fps": 12,
+        "width": 540,
+        "height": 960
+      },
+      "prompt": "Create a 9:16 editorial explainer scene in editorial collage style. Global palette: #0B1020, #F4EBDD, #F15A4A, #28B8A6, #F4C95D. Show Make the idea 'The loop closes.' tangible using editorial collage with one dominant focal subject in the lower third, with supporting labels in a quiet margin. Animate in this order: reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match. Use a restrained push-in with a lateral parallax shift camera movement. Start with the described quiet setup and end on the focal reveal that leads into the next scene. Maintain the shared a thin coral route line that becomes a reveal mask motif and subtle paper grain with restrained halftone accents texture. Use clean shapes and controlled contrast. No logos, watermarks, unrelated objects, malformed typography, invented numbers, visual clutter, or style drift. If exact text or data is required, leave a clean overlay area for post-production."
+    }
+  ],
+  "evidence_ledger": [
+    {
+      "claim": "Ideas become systems.",
+      "status": "user_supplied",
+      "source": "input",
+      "note": "Verify externally if this claim is consequential."
+    },
+    {
+      "claim": "Data reveals the pattern.",
+      "status": "user_supplied",
+      "source": "input",
+      "note": "Verify externally if this claim is consequential."
+    },
+    {
+      "claim": "Technology makes the loop visible.",
+      "status": "user_supplied",
+      "source": "input",
+      "note": "Verify externally if this claim is consequential."
+    },
+    {
+      "claim": "History gives the context.",
+      "status": "user_supplied",
+      "source": "input",
+      "note": "Verify externally if this claim is consequential."
+    },
+    {
+      "claim": "A map shows the path.",
+      "status": "user_supplied",
+      "source": "input",
+      "note": "Verify externally if this claim is consequential."
+    },
+    {
+      "claim": "Why does judgment still matter?",
+      "status": "user_supplied",
+      "source": "input",
+      "note": "Verify externally if this claim is consequential."
+    },
+    {
+      "claim": "The loop closes.",
+      "status": "user_supplied",
+      "source": "input",
+      "note": "Verify externally if this claim is consequential."
+    }
+  ],
+  "editing_blueprint": {
+    "assembly": "Align each scene to its narration range and preserve the readable holds.",
+    "compositing": "Add exact text, numbers, charts, and captions in post-production.",
+    "audio": "Record or import voiceover first, then place restrained transition and emphasis sounds."
+  },
+  "quality_control": {
+    "status": "needs_review",
+    "checks": [
+      "fact verification",
+      "text readability",
+      "continuity",
+      "scene variety",
+      "tool feasibility"
+    ]
+  }
+}

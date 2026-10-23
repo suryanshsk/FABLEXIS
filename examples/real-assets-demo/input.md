@@ -1,0 +1,1 @@
+Ideas become visible. A field note gives the story a human scale. Data reveals the pattern. Systems connect the evidence. The work closes with a clear question.

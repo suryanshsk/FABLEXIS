@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Fablexis Blueprint",
+  "type": "object",
+  "required": ["schema_version", "project", "global_style", "scenes", "quality_control"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "project": {"type": "object", "required": ["name", "mode", "aspect_ratio"]},
+    "global_style": {"type": "object", "required": ["palette", "typography", "texture"]},
+    "scenes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "duration", "visual_treatment", "layout", "typography", "transition_spec", "render", "direction", "variation"],
+        "properties": {
+          "id": {"type": "string"},
+          "duration": {"type": "number", "exclusiveMinimum": 0},
+          "visual_treatment": {"type": "string"},
+          "layout": {"type": "object", "required": ["safe_margin", "focal_area", "depth_layers"]},
+          "typography": {"type": "object", "required": ["display", "hierarchy", "alignment"]},
+          "transition_spec": {"type": "object", "required": ["type", "duration", "direction"]},
+          "render": {"type": "object", "required": ["fps", "width", "height"]}
+          ,"direction": {"type": "object", "required": ["tone", "information_density", "asset_strategy"]},
+          "variation": {"type": "object", "required": ["layout_variant", "motion_variant"]},
+          "layers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["type"],
+              "properties": {
+                "type": {"enum": ["asset", "shape", "text", "chart", "diagram"]},
+                "asset": {"type": "string"},
+                "x": {"type": "number"},
+                "y": {"type": "number"},
+                "width": {"type": "number", "exclusiveMinimum": 0},
+                "height": {"type": "number", "exclusiveMinimum": 0},
+                "fit": {"enum": ["contain", "cover"]},
+                "opacity": {"type": "number", "minimum": 0, "maximum": 1},
+                "z": {"type": "integer"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "quality_control": {"type": "object", "required": ["status", "checks"]}
+  }
+}

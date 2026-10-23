@@ -1,0 +1,19 @@
+{
+    "programs": [
+
+    ],
+    "stream_groups": [
+
+    ],
+    "streams": [
+        {
+            "codec_type": "video",
+            "width": 540,
+            "height": 960,
+            "r_frame_rate": "12/1"
+        }
+    ],
+    "format": {
+        "duration": "15.000000"
+    }
+}

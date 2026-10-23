@@ -1,0 +1,227 @@
+{
+  "schema_version": "1.0",
+  "project": {
+    "name": "Fablexis project",
+    "mode": "production",
+    "aspect_ratio": "9:16"
+  },
+  "analysis": {
+    "thesis": "# Why are Indian IPO investors obsessed with allotment?",
+    "audience": "Inferred from the supplied material; confirm if material to the edit.",
+    "hook": "# Why are Indian IPO investors obsessed with allotment?",
+    "assumptions": [
+      "Timing is estimated at approximately 150 words per minute.",
+      "No external research was performed."
+    ]
+  },
+  "global_style": {
+    "palette": [
+      "#0B1020",
+      "#F4EBDD",
+      "#F15A4A",
+      "#28B8A6",
+      "#F4C95D"
+    ],
+    "typography": "bold condensed display face for hooks, neutral sans-serif for supporting labels",
+    "texture": "subtle paper grain with restrained halftone accents",
+    "recurring_motif": "a thin coral route line that becomes a reveal mask",
+    "motion_rules": [
+      "meaningful reveals",
+      "short readable holds",
+      "shape-matched transitions"
+    ]
+  },
+  "narrative": {
+    "estimated_duration": 28.0,
+    "scene_count": 5,
+    "arc": [
+      "hook",
+      "development",
+      "conclusion"
+    ]
+  },
+  "scenes": [
+    {
+      "id": "scene-01",
+      "number": 1,
+      "purpose": "hook",
+      "narration": "# Why are Indian IPO investors obsessed with allotment?",
+      "start": 0.0,
+      "end": 3.6,
+      "duration": 3.6,
+      "timing_type": "estimated",
+      "aspect_ratio": "9:16",
+      "visual_treatment": "editorial collage",
+      "treatment_reason": "a claim or contrast that benefits from layered context",
+      "visual_concept": "Make the idea '# Why are Indian IPO investors obsessed with allotment?' tangible using editorial collage",
+      "composition": "one dominant focal subject in the lower third, with supporting labels in a quiet margin",
+      "animation": "reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match",
+      "camera": "a restrained push-in with a lateral parallax shift",
+      "transition": "match the final shape or direction into the next scene",
+      "on_screen_text": "Use only a short keyword or exact supplied number; typeset precise copy in post.",
+      "sound": "a soft paper movement on the reveal and a restrained tonal accent on the hold",
+      "assets": [
+        "background texture",
+        "focal illustration",
+        "short text overlay"
+      ],
+      "continuity": "Keep the global palette, coral route-line motif, and camera direction.",
+      "prompt": "Create a 9:16 editorial explainer scene in editorial collage style. Global palette: #0B1020, #F4EBDD, #F15A4A, #28B8A6, #F4C95D. Show Make the idea '# Why are Indian IPO investors obsessed with allotment?' tangible using editorial collage with one dominant focal subject in the lower third, with supporting labels in a quiet margin. Animate in this order: reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match. Use a restrained push-in with a lateral parallax shift camera movement. Start with the described quiet setup and end on the focal reveal that leads into the next scene. Maintain the shared a thin coral route line that becomes a reveal mask motif and subtle paper grain with restrained halftone accents texture. Use clean shapes and controlled contrast. No logos, watermarks, unrelated objects, malformed typography, invented numbers, visual clutter, or style drift. If exact text or data is required, leave a clean overlay area for post-production."
+    },
+    {
+      "id": "scene-02",
+      "number": 2,
+      "purpose": "develop the argument",
+      "narration": "Many retail investors apply for IPOs even when the chance of receiving shares is tiny.",
+      "start": 3.6,
+      "end": 9.6,
+      "duration": 6.0,
+      "timing_type": "estimated",
+      "aspect_ratio": "9:16",
+      "visual_treatment": "kinetic typography",
+      "treatment_reason": "a concise idea that needs a clear visual emphasis",
+      "visual_concept": "Make the idea 'Many retail investors apply for IPOs even when the chance of receiving shares is tiny.' tangible using kinetic typography",
+      "composition": "one dominant focal subject in the lower third, with supporting labels in a quiet margin",
+      "animation": "reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match",
+      "camera": "a restrained push-in with a lateral parallax shift",
+      "transition": "match the final shape or direction into the next scene",
+      "on_screen_text": "Use only a short keyword or exact supplied number; typeset precise copy in post.",
+      "sound": "a soft paper movement on the reveal and a restrained tonal accent on the hold",
+      "assets": [
+        "background texture",
+        "focal illustration",
+        "short text overlay"
+      ],
+      "continuity": "Keep the global palette, coral route-line motif, and camera direction.",
+      "prompt": "Create a 9:16 editorial explainer scene in kinetic typography style. Global palette: #0B1020, #F4EBDD, #F15A4A, #28B8A6, #F4C95D. Show Make the idea 'Many retail investors apply for IPOs even when the chance of receiving shares is tiny.' tangible using kinetic typography with one dominant focal subject in the lower third, with supporting labels in a quiet margin. Animate in this order: reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match. Use a restrained push-in with a lateral parallax shift camera movement. Start with the described quiet setup and end on the focal reveal that leads into the next scene. Maintain the shared a thin coral route line that becomes a reveal mask motif and subtle paper grain with restrained halftone accents texture. Use clean shapes and controlled contrast. No logos, watermarks, unrelated objects, malformed typography, invented numbers, visual clutter, or style drift. If exact text or data is required, leave a clean overlay area for post-production."
+    },
+    {
+      "id": "scene-03",
+      "number": 3,
+      "purpose": "develop the argument",
+      "narration": "The lottery-like allotment process turns a financial decision into a moment of suspense.",
+      "start": 9.6,
+      "end": 14.8,
+      "duration": 5.2,
+      "timing_type": "estimated",
+      "aspect_ratio": "9:16",
+      "visual_treatment": "kinetic typography",
+      "treatment_reason": "a concise idea that needs a clear visual emphasis",
+      "visual_concept": "Make the idea 'The lottery-like allotment process turns a financial decision into a moment of suspense.' tangible using kinetic typography",
+      "composition": "one dominant focal subject in the lower third, with supporting labels in a quiet margin",
+      "animation": "reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match",
+      "camera": "a restrained push-in with a lateral parallax shift",
+      "transition": "match the final shape or direction into the next scene",
+      "on_screen_text": "Use only a short keyword or exact supplied number; typeset precise copy in post.",
+      "sound": "a soft paper movement on the reveal and a restrained tonal accent on the hold",
+      "assets": [
+        "background texture",
+        "focal illustration",
+        "short text overlay"
+      ],
+      "continuity": "Keep the global palette, coral route-line motif, and camera direction.",
+      "prompt": "Create a 9:16 editorial explainer scene in kinetic typography style. Global palette: #0B1020, #F4EBDD, #F15A4A, #28B8A6, #F4C95D. Show Make the idea 'The lottery-like allotment process turns a financial decision into a moment of suspense.' tangible using kinetic typography with one dominant focal subject in the lower third, with supporting labels in a quiet margin. Animate in this order: reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match. Use a restrained push-in with a lateral parallax shift camera movement. Start with the described quiet setup and end on the focal reveal that leads into the next scene. Maintain the shared a thin coral route line that becomes a reveal mask motif and subtle paper grain with restrained halftone accents texture. Use clean shapes and controlled contrast. No logos, watermarks, unrelated objects, malformed typography, invented numbers, visual clutter, or style drift. If exact text or data is required, leave a clean overlay area for post-production."
+    },
+    {
+      "id": "scene-04",
+      "number": 4,
+      "purpose": "develop the argument",
+      "narration": "Oversubscription can make the visible demand look much larger than the number of investors who actually receive shares.",
+      "start": 14.8,
+      "end": 22.0,
+      "duration": 7.2,
+      "timing_type": "estimated",
+      "aspect_ratio": "9:16",
+      "visual_treatment": "kinetic typography",
+      "treatment_reason": "a concise idea that needs a clear visual emphasis",
+      "visual_concept": "Make the idea 'Oversubscription can make the visible demand look much larger than the number of investors who actually receiv' tangible using kinetic typography",
+      "composition": "one dominant focal subject in the lower third, with supporting labels in a quiet margin",
+      "animation": "reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match",
+      "camera": "a restrained push-in with a lateral parallax shift",
+      "transition": "match the final shape or direction into the next scene",
+      "on_screen_text": "Use only a short keyword or exact supplied number; typeset precise copy in post.",
+      "sound": "a soft paper movement on the reveal and a restrained tonal accent on the hold",
+      "assets": [
+        "background texture",
+        "focal illustration",
+        "short text overlay"
+      ],
+      "continuity": "Keep the global palette, coral route-line motif, and camera direction.",
+      "prompt": "Create a 9:16 editorial explainer scene in kinetic typography style. Global palette: #0B1020, #F4EBDD, #F15A4A, #28B8A6, #F4C95D. Show Make the idea 'Oversubscription can make the visible demand look much larger than the number of investors who actually receiv' tangible using kinetic typography with one dominant focal subject in the lower third, with supporting labels in a quiet margin. Animate in this order: reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match. Use a restrained push-in with a lateral parallax shift camera movement. Start with the described quiet setup and end on the focal reveal that leads into the next scene. Maintain the shared a thin coral route line that becomes a reveal mask motif and subtle paper grain with restrained halftone accents texture. Use clean shapes and controlled contrast. No logos, watermarks, unrelated objects, malformed typography, invented numbers, visual clutter, or style drift. If exact text or data is required, leave a clean overlay area for post-production."
+    },
+    {
+      "id": "scene-05",
+      "number": 5,
+      "purpose": "conclusion",
+      "narration": "The real story is the gap between participation, allocation, and the first day of trading.",
+      "start": 22.0,
+      "end": 28.0,
+      "duration": 6.0,
+      "timing_type": "estimated",
+      "aspect_ratio": "9:16",
+      "visual_treatment": "kinetic typography",
+      "treatment_reason": "a concise idea that needs a clear visual emphasis",
+      "visual_concept": "Make the idea 'The real story is the gap between participation, allocation, and the first day of trading.' tangible using kinetic typography",
+      "composition": "one dominant focal subject in the lower third, with supporting labels in a quiet margin",
+      "animation": "reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match",
+      "camera": "a restrained push-in with a lateral parallax shift",
+      "transition": "match the final shape or direction into the next scene",
+      "on_screen_text": "Use only a short keyword or exact supplied number; typeset precise copy in post.",
+      "sound": "a soft paper movement on the reveal and a restrained tonal accent on the hold",
+      "assets": [
+        "background texture",
+        "focal illustration",
+        "short text overlay"
+      ],
+      "continuity": "Keep the global palette, coral route-line motif, and camera direction.",
+      "prompt": "Create a 9:16 editorial explainer scene in kinetic typography style. Global palette: #0B1020, #F4EBDD, #F15A4A, #28B8A6, #F4C95D. Show Make the idea 'The real story is the gap between participation, allocation, and the first day of trading.' tangible using kinetic typography with one dominant focal subject in the lower third, with supporting labels in a quiet margin. Animate in this order: reveal the focal subject, introduce one supporting element, then resolve into a clear graphic match. Use a restrained push-in with a lateral parallax shift camera movement. Start with the described quiet setup and end on the focal reveal that leads into the next scene. Maintain the shared a thin coral route line that becomes a reveal mask motif and subtle paper grain with restrained halftone accents texture. Use clean shapes and controlled contrast. No logos, watermarks, unrelated objects, malformed typography, invented numbers, visual clutter, or style drift. If exact text or data is required, leave a clean overlay area for post-production."
+    }
+  ],
+  "evidence_ledger": [
+    {
+      "claim": "# Why are Indian IPO investors obsessed with allotment?",
+      "status": "user_supplied",
+      "source": "input",
+      "note": "Verify externally if this claim is consequential."
+    },
+    {
+      "claim": "Many retail investors apply for IPOs even when the chance of receiving shares is tiny.",
+      "status": "user_supplied",
+      "source": "input",
+      "note": "Verify externally if this claim is consequential."
+    },
+    {
+      "claim": "The lottery-like allotment process turns a financial decision into a moment of suspense.",
+      "status": "user_supplied",
+      "source": "input",
+      "note": "Verify externally if this claim is consequential."
+    },
+    {
+      "claim": "Oversubscription can make the visible demand look much larger than the number of investors who actually receive shares.",
+      "status": "user_supplied",
+      "source": "input",
+      "note": "Verify externally if this claim is consequential."
+    },
+    {
+      "claim": "The real story is the gap between participation, allocation, and the first day of trading.",
+      "status": "user_supplied",
+      "source": "input",
+      "note": "Verify externally if this claim is consequential."
+    }
+  ],
+  "editing_blueprint": {
+    "assembly": "Align each scene to its narration range and preserve the readable holds.",
+    "compositing": "Add exact text, numbers, charts, and captions in post-production.",
+    "audio": "Record or import voiceover first, then place restrained transition and emphasis sounds."
+  },
+  "quality_control": {
+    "status": "needs_review",
+    "checks": [
+      "fact verification",
+      "text readability",
+      "continuity",
+      "scene variety",
+      "tool feasibility"
+    ]
+  }
+}
