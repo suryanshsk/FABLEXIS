@@ -231,6 +231,11 @@ It is the primary workflow entry point for hosts that support the shared
 These files reuse the local engine; they do not provide shell permissions or a
 hosted rendering service.
 
+For agent skill discovery, use the complete Fablexis repository as the
+workspace. The current Python wheel packages the local engine and CLI but does
+not install `.agents/` or `.claude/` skill files into an agent workspace.
+Installing the wheel alone is not a skill installation.
+
 ### VS Code-style workspace agent — adapter present, host loading not independently tested
 
 The repository includes
@@ -247,26 +252,49 @@ use FFprobe before claiming that an MP4 exists.
 
 ### Claude Code — adapter present, host loading not independently tested
 
-Expose the root [`SKILL.md`](./SKILL.md) and the relevant files under
-[`skills/`](./skills/) using the skill mechanism supported by the Claude
-product or environment in use. The host must also provide approved access to
-the local repository and command execution. A normal chat session may be able
-to plan a project without being able to run the local renderer.
+Claude Code project skills use `.claude/skills/<skill-name>/SKILL.md`. This
+repository includes
+[`fablexis` adapter](./.claude/skills/fablexis/SKILL.md), which points to the
+canonical shared workflow. Open the repository as the Claude Code workspace,
+confirm the skill is available using the current Claude Code skill UI/command,
+and approve any requested local command permissions. The executable was not
+installed in the acceptance environment, so host discovery and invocation
+remain unverified here.
 
-### Gemini — documented, host loading not independently tested
+### Gemini CLI — skill discovery verified; model-driven workflow depends on authentication
 
-Provide [`SKILL.md`](./SKILL.md) and relevant specialist skills through a
-supported workspace, project-instruction, or file-context mechanism. A browser
-chat should not be assumed to access local files or execute `fablexis`.
+The official Gemini CLI discovers project Agent Skills under
+`.agents/skills/<skill-name>/SKILL.md`. Start it from this repository root,
+trust the workspace when prompted, then confirm the skill appears with:
+
+```text
+gemini skills list
+```
+
+An untrusted workspace will not load its project skills. Reading the skill and
+running the local Fablexis commands are separate capabilities: the natural
+language request still needs a usable Gemini CLI model/authentication setup
+and approved local command execution. Fablexis's analysis, planning, rendering,
+and verification do not need a Gemini API key or a hosted AI provider. In the
+acceptance environment, Gemini CLI 0.65.0 listed the enabled Fablexis skill
+after temporary workspace trust, but its ordinary prompt failed before tool
+execution because the available individual Code Assist client was rejected as
+unsupported. No model was installed, and no API key was used. This does not
+claim that a Gemini-driven video was rendered.
 Configure and test an approved local command bridge before requesting an
 automated render.
 
 ### ChatGPT/Codex — documented, host loading not independently tested
 
-Use a workspace-capable Codex or editor environment that can read this
-repository and execute local commands. Expose [`SKILL.md`](./SKILL.md), the
-needed specialist skills, and the project directory. A GitHub URL or ordinary
-chat message alone does not grant access to the local filesystem.
+Codex environments that support Agent Skills can use the shared
+`.agents/skills/fablexis/SKILL.md` path. Open this repository as the workspace,
+then confirm discovery using that Codex environment's skill interface before
+requesting local execution. No Codex executable was installed in the acceptance
+environment, so discovery and invocation remain unverified here. A GitHub URL
+or ordinary chat message alone does not grant access to the local filesystem.
+
+See [agent integration setup](./docs/agent-integrations.md) for the per-host
+verification status, setup notes, and acceptance boundaries.
 
 For every host, distinguish these states:
 
@@ -449,6 +477,16 @@ Before submitting changes:
 3. Run the existing test suite and repository validation.
 4. Update documentation when commands or behavior change.
 5. State which platforms and agent hosts were actually tested.
+
+See the [quick start](./docs/quickstart.md), [reproducible acceptance
+procedure](./docs/acceptance.md), and [release checklist](./docs/release-checklist.md).
+
+## Roadmap and launch materials
+
+Current limitations and explicitly unimplemented work are listed in
+[`docs/roadmap.md`](./docs/roadmap.md). Draft community launch copy and a
+reproducible demo plan are in [`docs/launch-kit.md`](./docs/launch-kit.md);
+they are preparation materials, not authorization to publish or post them.
 
 ## License
 

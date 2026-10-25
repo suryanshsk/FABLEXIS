@@ -3,7 +3,7 @@
 Notable changes to Fablexis are documented here. This file does not imply a
 release or publication.
 
-## Unreleased
+## [0.3.0] - 2026-10-25
 
 - Added deterministic local video analysis, reference-style measurements, and
   validated editing-plan timelines.
@@ -18,3 +18,10 @@ release or publication.
   Python 3.10-3.12.
 - Documented unsupported timeline compositing, transitions, standalone audio,
   and hosted-provider functionality.
+- Added a reproducible local quick start, separately classified agent-host
+  acceptance results, release checklist, and draft launch materials.
+- Updated Python license metadata to the current SPDX form for clean builds.
+
+## Unreleased
+
+No changes yet.

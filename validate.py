@@ -13,6 +13,12 @@ REQUIRED = [
     ".agents/skills/fablexis/SKILL.md",
     ".claude/skills/fablexis/SKILL.md",
     "schemas/timeline.schema.json",
+    "docs/agent-integrations.md",
+    "docs/quickstart.md",
+    "docs/acceptance.md",
+    "docs/roadmap.md",
+    "docs/release-checklist.md",
+    "docs/launch-kit.md",
 ]
 
 for relative in REQUIRED:
