@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,7 +7,8 @@ name = "fablexis"
 version = "0.3.0"
 description = "Open-source, AI-agent-installable video-production skill pack backed by a local rendering engine"
 requires-python = ">=3.10"
-license = {file = "LICENSE"}
+license = "MIT"
+license-files = ["LICENSE"]
 dependencies = ["Pillow>=10.0"]
 
 [project.scripts]

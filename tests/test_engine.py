@@ -33,10 +33,18 @@ class BlueprintTests(unittest.TestCase):
         root = Path(__file__).parents[1]
         shared = root / ".agents" / "skills" / "fablexis" / "SKILL.md"
         adapter = root / ".claude" / "skills" / "fablexis" / "SKILL.md"
+        readme = (root / "README.md").read_text(encoding="utf-8")
+        skill_text = shared.read_text(encoding="utf-8")
         self.assertTrue(shared.exists())
         self.assertTrue(adapter.exists())
-        self.assertIn("name: fablexis", shared.read_text(encoding="utf-8"))
+        self.assertIn("name: fablexis", skill_text)
         self.assertIn(".agents/skills/fablexis/SKILL.md", adapter.read_text(encoding="utf-8"))
+        self.assertIn("fablexis edit-plan", skill_text)
+        self.assertIn("fablexis render-timeline", skill_text)
+        self.assertIn("fablexis verify-output", skill_text)
+        self.assertIn("gemini skills list", readme)
+        self.assertIn("untrusted workspace", readme)
+        self.assertIn("No model was installed", readme)
 
     @unittest.skipUnless(
         shutil.which("ffmpeg") and shutil.which("ffprobe"),

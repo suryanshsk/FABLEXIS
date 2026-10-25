@@ -27,17 +27,25 @@ service and does not grant filesystem or shell permissions by itself.
 
 1. Read the user's idea or script and identify audience, purpose, duration,
    aspect ratio, factual claims, assumptions, and requested visual language.
-2. Inspect project-local assets without leaving the project boundary.
-3. Create or update a project:
+2. Inspect project-local assets without leaving the project boundary. Identify
+   source footage, reference video, and audio separately; do not describe
+   semantic content that deterministic analysis has not recognized.
+3. Choose the workflow that matches the request:
+
+   - For a motion-graphics project from an idea or script, use `create`.
+   - For editing existing footage, analyze each source and build a timeline
+     with the footage workflow below. Do not claim `create` edits raw footage.
+
+4. For an idea or script, create or update a project:
 
    ```text
    fablexis create --idea "<idea>" --project <project>
    fablexis create --script <script> --project <project>
    ```
 
-4. Read `<project>/production-report.json` and record each stage's status,
+5. Read `<project>/production-report.json` and record each stage's status,
    provider mode, outputs, warnings, and limitations.
-5. Validate the generated blueprint:
+6. Validate the generated blueprint:
 
    ```text
    fablexis validate <project>/blueprint.json
@@ -45,11 +53,11 @@ service and does not grant filesystem or shell permissions by itself.
    fablexis qa <project>
    ```
 
-6. If FFmpeg is available, export with `fablexis export <project>`.
-7. Verify the reported output with FFprobe. Confirm file existence, nonzero
+7. If FFmpeg is available, export with `fablexis export <project>`.
+8. Verify the reported output with FFprobe. Confirm file existence, nonzero
    size, codec, dimensions, frame rate, duration, pixel format, and audio
    stream presence or absence.
-8. Report what was actually executed, what was skipped, and what remains
+9. Report what was actually executed, what was skipped, and what remains
    unsupported. Preserve the editable blueprint and reports.
 
 Use `python -m engine.cli` when the console entry point is unavailable. The
@@ -93,6 +101,21 @@ boundaries, relative thumbnail paths, contact sheets, and warnings. Review the
 contact sheets before making creative claims. FFmpeg and FFprobe are required;
 missing tools, corrupt media, and unreadable frames are reported as failures.
 
+For existing footage, inspect every source first and build an editable plan:
+
+```text
+fablexis analyze-video <clip> --output <project>/analysis/<clip-name>
+fablexis analyze-reference <reference> --output <project>/analysis/reference
+fablexis edit-plan --reference <reference> --footage <clip-a> <clip-b> --duration 30 --output <project>/plan
+fablexis validate-timeline <project>/plan/editing-plan.json
+```
+
+Review the plan's chosen source trims, timeline positions, unresolved
+requirements, and analysis warnings before rendering. If the engine has not
+shown that a shot contains the subject described by the user, ask for selection
+guidance or state the uncertainty rather than presenting the heuristic plan as
+semantic selection.
+
 For a validated timeline, render sequential clips with:
 
 ```text
@@ -118,6 +141,17 @@ dimensions, rate, pixel format, duration, and audio synchronization, and
 representative frames decode successfully. If rendering fails, confirm both
 tools are on PATH, the source paths remain inside the project root, trim points
 fit the media, and the FFmpeg build includes libx264/AAC.
+
+Render and verify the timeline:
+
+```text
+fablexis render-timeline <project>/plan/editing-plan.json --project-root <project>/media --output <project>/rendered.mp4
+fablexis verify-output <project>/rendered.mp4
+```
+
+Read the quality report, inspect decoded representative frames when available,
+and use FFprobe for the final stream report. A successful metadata check does
+not establish semantic or artistic correctness.
 
 ## Host integration
 

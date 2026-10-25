@@ -18,6 +18,9 @@ release or publication.
   Python 3.10-3.12.
 - Documented unsupported timeline compositing, transitions, standalone audio,
   and hosted-provider functionality.
+- Added a reproducible local quick start, separately classified agent-host
+  acceptance results, release checklist, and draft launch materials.
+- Updated Python license metadata to the current SPDX form for clean builds.
 
 ## Unreleased
 
