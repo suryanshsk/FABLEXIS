@@ -3,19 +3,16 @@
 from __future__ import annotations
 
 import json
-import shutil
-import struct
-import subprocess
-import tempfile
+import math
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Protocol
 
+from .blueprint_export import BlueprintExportError, export_blueprint
 from .vox_motion import (
     build_blueprint,
     validate_assets,
     validate_blueprint,
-    write_bmp_frames,
     write_markdown,
     write_svg,
 )
@@ -127,42 +124,6 @@ def _stage(name: str, status: str, detail: str, **extra: Any) -> dict[str, Any]:
     return {"stage": name, "status": status, "detail": detail, **extra}
 
 
-def _probe_media(ffprobe: str, output: Path) -> dict[str, Any]:
-    process = subprocess.run(
-        [ffprobe, "-v", "error", "-show_entries",
-         "format=duration,size:stream=codec_name,width,height,r_frame_rate,codec_type,pix_fmt",
-         "-of", "json", str(output)],
-        capture_output=True, text=True, check=False,
-    )
-    if process.returncode != 0:
-        raise RuntimeError(process.stderr.strip() or "FFprobe failed.")
-    media = json.loads(process.stdout)
-    media["audio_present"] = any(
-        stream.get("codec_type") == "audio"
-        for stream in media.get("streams", [])
-    )
-    return media
-
-
-def _validate_rendered_frames(frame_dir: Path, expected_count: int) -> dict[str, Any]:
-    frames = sorted(frame_dir.glob("frame_*.bmp"))
-    if len(frames) != expected_count:
-        raise RuntimeError(f"Rendered frame count mismatch: expected {expected_count}, found {len(frames)}")
-    first_dimensions: tuple[int, int] | None = None
-    for frame in frames:
-        payload = frame.read_bytes()
-        if len(payload) <= 54 or payload[:2] != b"BM":
-            raise RuntimeError(f"Invalid or empty rendered frame: {frame.name}")
-        width, height = struct.unpack_from("<ii", payload, 18)
-        if width <= 0 or height <= 0:
-            raise RuntimeError(f"Invalid frame dimensions in {frame.name}")
-        if first_dimensions is None:
-            first_dimensions = (width, abs(height))
-        elif first_dimensions != (width, abs(height)):
-            raise RuntimeError(f"Inconsistent frame dimensions in {frame.name}")
-    return {"frame_count": len(frames), "dimensions": first_dimensions}
-
-
 def run_pipeline(
     brief: str,
     project: Path,
@@ -183,7 +144,13 @@ def run_pipeline(
         _stage("creative_direction", "passed", "Deterministic semantic treatment selection completed."),
     ]
     blueprint = build_blueprint(brief, mode=mode, aspect_ratio=aspect_ratio)
-    if duration is not None and duration > 0:
+    if duration is not None:
+        if (
+            isinstance(duration, bool)
+            or not math.isfinite(duration)
+            or duration <= 0
+        ):
+            raise ValueError("Production duration must be a finite positive number.")
         scale = duration / blueprint["narrative"]["estimated_duration"]
         cursor = 0.0
         for scene in blueprint["scenes"]:
@@ -217,45 +184,88 @@ def run_pipeline(
         encoding="utf-8",
     )
     stages.append(_stage("rendered_preview", "passed", "Storyboard SVG and HTML written."))
-    quality = {
+    quality: dict[str, Any] = {
+        "schema_version": "1.0",
         "status": "passed",
-        "checks": ["blueprint", "assets", "storyboard", "rendered_frames", "media"],
+        "checks": {
+            "blueprint": True,
+            "assets": True,
+            "storyboard": True,
+        },
         "validated_scene_count": len(blueprint["scenes"]),
+        "limitations": ["Semantic visual review was not performed."],
     }
-    (project / "quality-report.json").write_text(json.dumps(quality, indent=2), encoding="utf-8")
     output = project / "motionforge.mp4"
-    if ffmpeg:
-        with tempfile.TemporaryDirectory(prefix="motionforge-pipeline-") as frames:
-            frame_dir = Path(frames)
-            frame_count = write_bmp_frames(blueprint, frame_dir, project_root=project)
-            frame_qa = _validate_rendered_frames(frame_dir, frame_count)
-            process = subprocess.run(
-                [ffmpeg, "-y", "-loglevel", "error", "-framerate", "12",
-                 "-i", str(frame_dir / "frame_%05d.bmp"), "-c:v", "libx264",
-                 "-pix_fmt", "yuv420p", str(output)],
-                capture_output=True, text=True, check=False,
+    exported = False
+    export_failed = False
+    if ffmpeg and ffprobe:
+        try:
+            media, frame_qa = export_blueprint(
+                blueprint,
+                project,
+                output,
+                ffmpeg=ffmpeg,
+                ffprobe=ffprobe,
             )
-        if process.returncode != 0 or not output.exists() or output.stat().st_size == 0:
-            stages.append(_stage("mp4_export", "failed", process.stderr.strip() or "FFmpeg failed."))
-            raise RuntimeError(stages[-1]["detail"])
-        media = _probe_media(ffprobe, output) if ffprobe else {}
-        (project / "media-report.json").write_text(json.dumps(media, indent=2), encoding="utf-8")
-        stages.extend([
-            _stage("rendering", "passed", "Deterministic frames rendered through the local compositor.", **frame_qa),
-            _stage("rendered_frame_qa", "passed", "All generated BMP frames are non-empty and dimensionally consistent.", **frame_qa),
-            _stage("mp4_export", "passed", output.name, media=media),
-        ])
+        except BlueprintExportError as exc:
+            export_failed = True
+            quality["status"] = "failed"
+            quality["checks"].update(
+                {"rendered_frames": False, "media_verification": False}
+            )
+            quality["failure"] = str(exc)
+            stages.append(_stage("mp4_export", "failed", str(exc)))
+        else:
+            exported = True
+            quality["checks"].update(
+                {"rendered_frames": True, "media_verification": True}
+            )
+            quality["media"] = media
+            quality["frame_qa"] = frame_qa
+            (project / "media-report.json").write_text(
+                json.dumps(media, indent=2), encoding="utf-8"
+            )
+            stages.extend(
+                [
+                    _stage(
+                        "rendering",
+                        "passed",
+                        "Deterministic frames rendered through the local compositor.",
+                        **frame_qa,
+                    ),
+                    _stage(
+                        "rendered_frame_qa",
+                        "passed",
+                        "All generated frames and representative MP4 frames passed checks.",
+                        **frame_qa,
+                    ),
+                    _stage("mp4_export", "passed", output.name, media=media),
+                ]
+            )
     else:
-        stages.append(_stage("mp4_export", "blocked", "FFmpeg unavailable; preview and blueprint remain available."))
+        missing = []
+        if not ffmpeg:
+            missing.append("FFmpeg")
+        if not ffprobe:
+            missing.append("FFprobe")
+        reason = f"{' and '.join(missing)} unavailable; MP4 was not created."
+        quality["status"] = "partial"
+        quality["checks"].update(
+            {"rendered_frames": False, "media_verification": False}
+        )
+        stages.append(_stage("mp4_export", "blocked", reason))
+    (project / "quality-report.json").write_text(
+        json.dumps(quality, indent=2), encoding="utf-8"
+    )
     report = {
-        "status": "passed" if output.exists() else "partial",
+        "status": "failed" if export_failed else ("passed" if exported else "partial"),
         "provider": blueprint["provider"],
         "stages": stages,
         "outputs": {
             "blueprint": "blueprint.json",
             "storyboard": "storyboard.svg",
             "quality_report": "quality-report.json",
-            "mp4": output.name if output.exists() else None,
+            "mp4": output.name if exported else None,
         },
         "limitations": ["No external research or paid AI provider was used.", "Audio is not implemented."],
     }

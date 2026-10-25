@@ -5,12 +5,25 @@ import json
 from engine.vox_motion import validate_blueprint
 
 ROOT = Path(__file__).parent
-REQUIRED = ["SKILL.md", "README.md", "references/visual-styles.md", "references/quality-control.md"]
+REQUIRED = [
+    "SKILL.md",
+    "README.md",
+    "references/visual-styles.md",
+    "references/quality-control.md",
+    ".agents/skills/fablexis/SKILL.md",
+    ".claude/skills/fablexis/SKILL.md",
+    "schemas/timeline.schema.json",
+]
 
 for relative in REQUIRED:
     path = ROOT / relative
     if not path.exists() or not path.read_text(encoding="utf-8").strip():
         raise SystemExit(f"Missing required file: {relative}")
+
+try:
+    json.loads((ROOT / "schemas" / "timeline.schema.json").read_text(encoding="utf-8"))
+except json.JSONDecodeError as exc:
+    raise SystemExit(f"Invalid timeline schema JSON: {exc}") from exc
 
 skill_files = [ROOT / "SKILL.md", *sorted((ROOT / "skills").glob("*/SKILL.md"))]
 for skill_file in skill_files:

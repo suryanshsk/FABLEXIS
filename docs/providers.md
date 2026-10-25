@@ -1,6 +1,6 @@
 # Optional providers
 
-Fablexis does not require an AI provider. Configure provider adapters through environment variables or a future adapter implementation; never place keys in a brief or commit them.
+Fablexis does not require an AI provider. The current engine ships with a deterministic offline creative provider and does not implement hosted provider adapters. Environment variables do not activate providers.
 
 Provider-dependent work must record:
 
@@ -10,4 +10,4 @@ Provider-dependent work must record:
 - license/provenance where known
 - local fallback
 
-When a provider is not configured, use supplied assets and deterministic graphics. Do not send assets over the network implicitly.
+Use supplied local assets and deterministic graphics. Do not send assets over the network implicitly. Local video analysis, reference measurements, timeline planning, and FFmpeg rendering do not require an AI provider.
