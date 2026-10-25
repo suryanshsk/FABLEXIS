@@ -4,22 +4,37 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
+import os
 import shutil
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
+from .blueprint_export import BlueprintExportError, export_blueprint
 from .vox_motion import (
     build_blueprint,
-    frame_dimensions,
     validate_blueprint,
     write_markdown,
-    write_ppm_frames,
-    write_bmp_frames,
     write_svg,
     validate_assets,
 )
 from .pipeline import run_pipeline
+from .media_analysis import MediaAnalysisError, analyze_video
+from .reference_analysis import analyze_footage, analyze_reference, build_edit_plan
+from .timeline import TimelineValidationError, validate_timeline
+from .timeline_renderer import TimelineRenderError, render_timeline, verify_mp4
+
+
+def _positive_duration(value: str) -> float:
+    try:
+        duration = float(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError("duration must be a number") from exc
+    if not math.isfinite(duration) or duration <= 0:
+        raise argparse.ArgumentTypeError("duration must be a finite positive number")
+    return duration
 
 
 def _project_blueprint(project: Path) -> Path:
@@ -27,6 +42,23 @@ def _project_blueprint(project: Path) -> Path:
     if not candidate.exists():
         raise SystemExit(f"Project blueprint not found: {candidate}")
     return candidate
+
+
+def _write_json_atomically(path: Path, document: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    descriptor, name = tempfile.mkstemp(
+        prefix=f".{path.stem}.",
+        suffix=".tmp",
+        dir=path.parent,
+        text=True,
+    )
+    os.close(descriptor)
+    temporary = Path(name)
+    try:
+        temporary.write_text(json.dumps(document, indent=2), encoding="utf-8")
+        temporary.replace(path)
+    finally:
+        temporary.unlink(missing_ok=True)
 
 
 def _load_blueprint(project: Path) -> dict:
@@ -52,6 +84,10 @@ def _write_project(input_path: Path, output: Path, mode: str, aspect_ratio: str)
 
 
 def main() -> int:
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure is not None:
+            reconfigure(errors="backslashreplace")
     parser = argparse.ArgumentParser(prog="fablexis")
     sub = parser.add_subparsers(dest="command", required=True)
     init = sub.add_parser("init", help="Create a project with a starter brief")
@@ -67,7 +103,7 @@ def main() -> int:
     source.add_argument("--idea")
     source.add_argument("--script", type=Path)
     create.add_argument("--project", type=Path, default=Path("out"))
-    create.add_argument("--duration", type=float)
+    create.add_argument("--duration", type=_positive_duration)
     create.add_argument("--aspect-ratio", default="9:16")
     create.add_argument("--mode", choices=["quick", "director", "production"], default="production")
     plan = sub.add_parser("plan", help="Build a blueprint from a text or Markdown input")
@@ -83,6 +119,52 @@ def main() -> int:
     render.add_argument("--output", type=Path, default=Path("out"))
     validate = sub.add_parser("validate", help="Validate a blueprint JSON file")
     validate.add_argument("blueprint", type=Path)
+    analyze = sub.add_parser("analyze-video", help="Analyze local video metadata, frames, and estimated cuts")
+    analyze.add_argument("input", type=Path)
+    analyze.add_argument("--output", type=Path)
+    analyze.add_argument("--interval", type=float, default=5.0)
+    analyze.add_argument("--max-frames", type=int, default=24)
+    analyze.add_argument("--thumbnail-width", type=int, default=320)
+    analyze.add_argument("--thumbnail-height", type=int, default=180)
+    analyze.add_argument("--scene-threshold", type=float, default=0.35)
+    reference = sub.add_parser("analyze-reference", help="Analyze a reference video's measurable visual style")
+    reference.add_argument("input", type=Path)
+    reference.add_argument("--output", type=Path, default=Path("analysis/reference"))
+    reference.add_argument("--interval", type=float, default=2.0)
+    reference.add_argument("--max-frames", type=int, default=24)
+    reference.add_argument("--scene-threshold", type=float, default=0.35)
+    edit = sub.add_parser("edit-plan", help="Create an explainable reference-to-footage editing plan")
+    edit.add_argument("--reference", type=Path, required=True)
+    edit.add_argument("--footage", type=Path, nargs="+", required=True)
+    edit.add_argument("--output", type=Path, default=Path("analysis/edit-plan"))
+    edit.add_argument("--duration", type=float)
+    edit.add_argument("--width", type=int)
+    edit.add_argument("--height", type=int)
+    render_timeline_command = sub.add_parser(
+        "render-timeline", help="Render a validated multi-clip timeline to MP4"
+    )
+    render_timeline_command.add_argument("timeline", type=Path)
+    render_timeline_command.add_argument(
+        "--output", type=Path, required=True, help="Destination MP4 path"
+    )
+    render_timeline_command.add_argument(
+        "--project-root", type=Path, help="Root directory allowed to contain source footage"
+    )
+    render_timeline_command.add_argument(
+        "--crf", type=int, default=18, help="H.264 quality (0-51; lower is higher quality)"
+    )
+    render_timeline_command.add_argument(
+        "--timeout", type=int, default=180, help="Per-process timeout in seconds"
+    )
+    validate_timeline_command = sub.add_parser(
+        "validate-timeline", help="Validate a timeline JSON file or edit-plan wrapper"
+    )
+    validate_timeline_command.add_argument("timeline", type=Path)
+    verify_output_command = sub.add_parser(
+        "verify-output", help="Verify an MP4 with FFprobe and decode representative frames"
+    )
+    verify_output_command.add_argument("output", type=Path)
+    verify_output_command.add_argument("--timeout", type=int, default=30)
     args = parser.parse_args()
 
     if args.command == "init":
@@ -107,6 +189,132 @@ def main() -> int:
         print(f"FFprobe: {ffprobe or 'missing (media verification unavailable)'}")
         print("Local SVG/HTML preview: available")
         return 0
+    if args.command == "analyze-video":
+        output = args.output or Path("analysis") / args.input.stem
+        try:
+            report = analyze_video(
+                args.input,
+                output,
+                interval=args.interval,
+                max_frames=args.max_frames,
+                thumbnail_width=args.thumbnail_width,
+                thumbnail_height=args.thumbnail_height,
+                scene_threshold=args.scene_threshold,
+                ffmpeg=shutil.which("ffmpeg"),
+                ffprobe=shutil.which("ffprobe"),
+            )
+        except MediaAnalysisError as exc:
+            raise SystemExit(f"Video analysis failed: {exc}") from exc
+        print(f"Analyzed {args.input}")
+        print(f"Report: {output / 'analysis-report.json'}")
+        print(f"Frames: {len(report['artifacts']['frames'])}; shots: {len(report['shots'])}")
+        return 0
+    if args.command == "analyze-reference":
+        try:
+            report = analyze_reference(
+                args.input,
+                args.output,
+                interval=args.interval,
+                max_frames=args.max_frames,
+                scene_threshold=args.scene_threshold,
+                ffmpeg=shutil.which("ffmpeg"),
+                ffprobe=shutil.which("ffprobe"),
+            )
+        except MediaAnalysisError as exc:
+            raise SystemExit(f"Reference analysis failed: {exc}") from exc
+        print(f"Reference report: {args.output / 'reference-style-report.json'}")
+        print(f"Shots: {report['style']['pacing']['shot_count']}")
+        return 0
+    if args.command == "edit-plan":
+        try:
+            reference_dir = args.output / "reference"
+            footage_dir = args.output / "footage"
+            reference_report = analyze_reference(
+                args.reference, reference_dir, ffmpeg=shutil.which("ffmpeg"), ffprobe=shutil.which("ffprobe")
+            )
+            footage_reports = analyze_footage(
+                args.footage, footage_dir, ffmpeg=shutil.which("ffmpeg"), ffprobe=shutil.which("ffprobe")
+            )
+            plan = build_edit_plan(
+                reference_report,
+                footage_reports,
+                target_duration=args.duration,
+                width=args.width,
+                height=args.height,
+            )
+            args.output.mkdir(parents=True, exist_ok=True)
+            (args.output / "editing-plan.json").write_text(json.dumps(plan, indent=2), encoding="utf-8")
+        except (MediaAnalysisError, ValueError, KeyError) as exc:
+            raise SystemExit(f"Editing plan failed: {exc}") from exc
+        print(f"Editing plan: {args.output / 'editing-plan.json'}")
+        print(f"Selected clips: {len(plan['selected_clips'])}; alternatives: {len(plan['candidate_alternatives'])}")
+        return 0
+    if args.command in {"render-timeline", "validate-timeline"}:
+        try:
+            document = json.loads(args.timeline.read_text(encoding="utf-8-sig"))
+            timeline = document
+            if (
+                isinstance(document, dict)
+                and "project" not in document
+                and "tracks" not in document
+                and isinstance(document.get("timeline"), dict)
+            ):
+                timeline = document["timeline"]
+            if args.command == "validate-timeline":
+                validate_timeline(timeline)
+                clip_count = sum(
+                    len(track["clips"]) for track in timeline["tracks"]
+                )
+                print(
+                    f"Valid timeline: {len(timeline['tracks'])} tracks, "
+                    f"{clip_count} clips, {timeline['project']['duration_seconds']} seconds"
+                )
+                return 0
+            if args.output.resolve() == args.timeline.resolve():
+                raise TimelineRenderError(
+                    "Output path must not overwrite the timeline JSON file."
+                )
+            media = render_timeline(
+                timeline,
+                args.output,
+                project_root=args.project_root or args.timeline.parent,
+                ffmpeg=shutil.which("ffmpeg"),
+                ffprobe=shutil.which("ffprobe"),
+                crf=args.crf,
+                timeout=args.timeout,
+            )
+        except (OSError, json.JSONDecodeError, TimelineRenderError) as exc:
+            raise SystemExit(f"Timeline render failed: {exc}") from exc
+        except TimelineValidationError as exc:
+            raise SystemExit(f"Timeline validation failed: {exc}") from exc
+        quality_report = {
+            "schema_version": "1.0",
+            "status": media["quality"]["status"],
+            "output": args.output.name,
+            "project": {
+                key: timeline["project"][key]
+                for key in ("width", "height", "frame_rate", "duration_seconds")
+            },
+            "media": media,
+        }
+        report_path = args.output.with_name(f"{args.output.stem}.quality-report.json")
+        _write_json_atomically(report_path, quality_report)
+        print(f"Rendered timeline: {args.output}")
+        print(f"Quality report: {report_path}")
+        print(f"Media: {json.dumps(media, sort_keys=True)}")
+        return 0
+    if args.command == "verify-output":
+        try:
+            media = verify_mp4(
+                args.output,
+                ffmpeg=shutil.which("ffmpeg"),
+                ffprobe=shutil.which("ffprobe"),
+                timeout=args.timeout,
+            )
+        except (OSError, TimelineRenderError) as exc:
+            raise SystemExit(f"Output verification failed: {exc}") from exc
+        print(json.dumps({"output": args.output.name, **media}, sort_keys=True))
+        return 0
     if args.command == "brief":
         _write_project(args.input, args.project, args.mode, args.aspect_ratio)
         return 0
@@ -122,7 +330,7 @@ def main() -> int:
             ffprobe=shutil.which("ffprobe"),
         )
         print(f"Production {report['status']}: {args.project / 'production-report.json'}")
-        return 0
+        return 1 if report["status"] == "failed" else 0
     if args.command == "plan":
         _write_project(args.input, args.output, args.mode, args.aspect_ratio)
         return 0
@@ -139,61 +347,70 @@ def main() -> int:
         return 0
     if args.command == "qa":
         blueprint = _load_blueprint(args.project)
-        report = blueprint.get("quality_control", {})
-        report["status"] = "passed"
-        report["validated_scene_count"] = len(blueprint["scenes"])
-        (args.project / "quality-report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
-        print(f"QA passed for {len(blueprint['scenes'])} scenes")
-        return 0
+        report = {
+            "schema_version": "1.0",
+            "scope": "blueprint and local asset validation",
+            "status": "passed",
+            "checks": {"blueprint": True, "assets": True},
+            "validated_scene_count": len(blueprint["scenes"]),
+            "limitations": ["Rendered video is not checked unless motionforge.mp4 exists."],
+        }
+        output = args.project / "motionforge.mp4"
+        if output.is_file():
+            ffprobe = shutil.which("ffprobe")
+            ffmpeg = shutil.which("ffmpeg")
+            if not ffprobe or not ffmpeg:
+                report["status"] = "partial"
+                report["checks"]["rendered_media"] = False
+                report["failure"] = "FFmpeg and FFprobe are required to verify rendered media."
+            else:
+                try:
+                    media = verify_mp4(output, ffmpeg=ffmpeg, ffprobe=ffprobe)
+                    video = next(
+                        stream for stream in media["streams"]
+                        if stream.get("codec_type") == "video"
+                    )
+                    expected = blueprint["scenes"][0]["render"]
+                    if (video["width"], video["height"]) != (
+                        expected["width"], expected["height"]
+                    ):
+                        raise TimelineRenderError(
+                            "Rendered dimensions do not match the blueprint."
+                        )
+                except TimelineRenderError as exc:
+                    report["status"] = "failed"
+                    report["checks"]["rendered_media"] = False
+                    report["failure"] = str(exc)
+                else:
+                    report["checks"]["rendered_media"] = True
+                    report["media"] = media
+                    report["limitations"].append(
+                        "Automated metadata and frame-decode checks do not replace visual review."
+                    )
+        else:
+            report["status"] = "partial"
+            report["checks"]["rendered_media"] = False
+            report["failure"] = "No motionforge.mp4 exists; only blueprint and assets were checked."
+        _write_json_atomically(args.project / "quality-report.json", report)
+        print(f"Blueprint QA {report['status']} for {len(blueprint['scenes'])} scenes")
+        return 1 if report["status"] == "failed" else 0
     if args.command == "export":
         blueprint = _load_blueprint(args.project)
-        ffmpeg = shutil.which("ffmpeg")
-        if not ffmpeg:
-            raise SystemExit(
-                "FFmpeg is not installed or not on PATH. SVG/HTML preview is available; MP4 was not created."
-            )
         output = args.project / "motionforge.mp4"
-        with tempfile.TemporaryDirectory(prefix="motionforge-frames-") as frames:
-            frame_dir = Path(frames)
-            write_bmp_frames(blueprint, frame_dir, project_root=args.project)
-            process = subprocess.run(
-                [
-                    ffmpeg,
-                    "-y",
-                    "-loglevel",
-                    "error",
-                    "-framerate",
-                    "12",
-                    "-i",
-                    str(frame_dir / "frame_%05d.bmp"),
-                    "-c:v",
-                    "libx264",
-                    "-pix_fmt",
-                    "yuv420p",
-                    str(output),
-                ],
-                capture_output=True,
-                text=True,
-                check=False,
-            )
-        if process.returncode != 0 or not output.exists() or output.stat().st_size == 0:
-            detail = process.stderr.strip() or "FFmpeg returned no diagnostic."
-            raise SystemExit(f"MP4 export failed: {detail}")
+        ffmpeg = shutil.which("ffmpeg")
         ffprobe = shutil.which("ffprobe")
-        if ffprobe:
-            probe = subprocess.run(
-                [ffprobe, "-v", "error", "-show_entries", "format=duration:stream=width,height,r_frame_rate,codec_type",
-                 "-of", "json", str(output)],
-                capture_output=True, text=True, check=False,
+        try:
+            media, frame_qa = export_blueprint(
+                blueprint,
+                args.project,
+                output,
+                ffmpeg=ffmpeg,
+                ffprobe=ffprobe,
             )
-            if probe.returncode != 0:
-                raise SystemExit(f"MP4 verification failed: {probe.stderr.strip() or 'ffprobe returned an error.'}")
-            media = json.loads(probe.stdout)
-            media["audio_present"] = any(
-                stream.get("codec_type") == "audio"
-                for stream in media.get("streams", [])
-            )
-            (args.project / "media-report.json").write_text(json.dumps(media, indent=2), encoding="utf-8")
+        except BlueprintExportError as exc:
+            raise SystemExit(f"MP4 export failed: {exc}") from exc
+        media["frame_qa"] = frame_qa
+        _write_json_atomically(args.project / "media-report.json", media)
         print(f"Exported {output}")
         return 0
     blueprint = json.loads(args.blueprint.read_text(encoding="utf-8"))
